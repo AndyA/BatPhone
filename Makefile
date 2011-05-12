@@ -1,0 +1,2 @@
+all: pitchshift.o
+
