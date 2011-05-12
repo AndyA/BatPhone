@@ -4,6 +4,7 @@
 *.gcov
 *.o
 *.ts
+*.wav
 .*.swp
 .DS_Store
 Session.vim
