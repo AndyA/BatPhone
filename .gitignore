@@ -1,0 +1,11 @@
+*.dSYM
+*.gcda
+*.gcno
+*.gcov
+*.o
+*.ts
+.*.swp
+.DS_Store
+Session.vim
+batty
+tags

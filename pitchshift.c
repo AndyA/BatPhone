@@ -40,18 +40,15 @@
 #include <math.h>
 #include <stdio.h>
 
+#include "pitchshift.h"
+
 /*#define M_PI 3.14159265358979323846*/
 #define MAX_FRAME_LENGTH 8192
-
-void smbFft( float *fftBuffer, long fftFrameSize, long sign );
-double smbAtan2( double x, double y );
-
-// -----------------------------------------------------------------------------------------------------------------
 
 void
 smbPitchShift( float pitchShift, long numSampsToProcess, long fftFrameSize,
                long osamp, float sampleRate, float *indata,
-               float *outdata )
+               float *outdata, int stride )
 /*
 	Routine smbPitchShift(). See top of file for explanation
 	Purpose: doing pitch shifting while maintaining duration using the Short
@@ -102,8 +99,8 @@ smbPitchShift( float pitchShift, long numSampsToProcess, long fftFrameSize,
   for ( i = 0; i < numSampsToProcess; i++ ) {
 
     /* As long as we have not yet collected enough data just read in */
-    gInFIFO[gRover] = indata[i];
-    outdata[i] = gOutFIFO[gRover - inFifoLatency];
+    gInFIFO[gRover] = indata[i * stride];
+    outdata[i * stride] = gOutFIFO[gRover - inFifoLatency];
     gRover++;
 
     /* now we have enough data for processing */
@@ -301,8 +298,6 @@ smbFft( float *fftBuffer, long fftFrameSize, long sign )
   }
 }
 
-// -----------------------------------------------------------------------------------------------------------------
-
 /*
 
     12/12/02, smb
@@ -336,6 +331,5 @@ smbAtan2( double x, double y ) {
   return atan2( x, y );
 }
 
-// -----------------------------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------------------------
+/* vim:ts=2:sw=2:sts=2:et:ft=c 
+ */
